@@ -3,6 +3,7 @@ import { User } from "../models/userModel.js";
 
 export const accessChat = async (req, res) => {
   const { userId } = req.body;
+  console.log("userID", userId);
   if (!userId) {
     console.log("UserId param not sent with request");
     return res.status(400);
@@ -45,6 +46,7 @@ export const accessChat = async (req, res) => {
 
 export const getAllChats = async (req, res) => {
   try {
+    console.log("in getAllChats");
     Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
       .populate("users")
       .populate("groupAdmin")
@@ -57,6 +59,7 @@ export const getAllChats = async (req, res) => {
         });
         res.status(200).send(results);
       });
+      console.log("res",res);
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
